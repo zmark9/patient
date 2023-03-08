@@ -1,0 +1,54 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="fw-bold col-md-4 ms-auto">Id</div>
+      <div class="col-md-8 ms-auto">
+        <div>{{patientInfo.id}}</div>
+      </div>
+    </div>
+
+    <div *ngFor="let address of patientInfo.address">
+    <div class="row">
+      <div class="fw-bold col-md-4 ms-auto">Address <small>({{address.use}})</small></div>
+      <div class="col-md-8 ms-auto">
+        <div *ngFor="let address of patientInfo.address">
+          <div *ngFor="let line of address.line">
+             {{line}} 
+             <div>{{address.city}}, {{address.postalCode}} {{address.country}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="fw-bold col-md-4 ms-auto">Gender</div>
+    <div class="col-md-8 ms-auto">
+      <div> {{patientInfo.gender}}</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="fw-bold col-md-4 ms-auto">Birthdate</div>
+    <div class="col-md-8 ms-auto">
+      <div> {{bDate}}</div>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="fw-bold col-md-4 ms-auto">Phone</div>
+      <div class="col-md-8 ms-auto">
+        <div *ngFor="let telecom of patientInfo.telecom">
+          <span *ngIf="telecom.system">{{telecom.system + ':'}} {{telecom.value}}</span>
+          </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="fw-bold col-md-4 ms-auto">Meta Data</div>
+      <div class="col-md-8 ms-auto">
+        {{patientInfo.text === undefined ? '' : patientInfo.text.status}} <span [innerHTML]="patientInfo.text === undefined ? '' :patientInfo.text.div"></span>
+      </div>
+    </div>
+    
+  </div>
+

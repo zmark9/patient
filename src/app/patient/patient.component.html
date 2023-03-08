@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>Patient Info</h1>
+    <div class="row pb-3 pt-2">
+      <div class="col-3"><input type="text" class="rounded border" name="filterText" (keyup)="searchPatients($event)" placeholder="first name filter "></div>
+      <div class="col-3">{{resultCount}} items found</div>
+    </div>
+
+    <table class="table table-striped">
+      <thead class="thread-dark">
+        <th class="col">First Name</th>
+        <th class="col">Last name</th>
+        <th class="col">Gender</th>
+        <th class="col">Birthdate </th>
+        <th></th>
+      </thead>
+      <tbody>
+        
+      <tr *ngFor="let patient of patientFilter, index as idx">
+        <td>
+          <div *ngFor="let name of patient.resource.name">
+            <span *ngFor="let givenName of name.given, index as ct">
+              {{givenName}}
+              <span *ngIf="ct < name.given.length-1">,</span>
+            </span>
+          </div>
+        </td>
+        <td >
+          <div *ngFor="let name of patient.resource.name">
+          {{name.family}}
+          </div>
+        </td>
+        <td > {{patient.resource.gender}} </td>
+        <td > {{patient.resource.birthDate}} </td>
+        <td>
+          <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" (click)="showDetail(idx)" data-patient="idx" data-bs-target="#staticModal">
+            View Details
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+</table>
+</div>
+
+<!-- Modal -->
+<app-display-modal [patientInfo]="patientInfo" ></app-display-modal>
