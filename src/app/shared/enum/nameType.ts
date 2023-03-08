@@ -3,7 +3,7 @@ export enum NameType {
     Ppractitioner = 1,
   }
 
-export enum PreferrredName {
+export enum PreferredName {
     Primary = 0,
     NickName = 1,
     Alias = 2 

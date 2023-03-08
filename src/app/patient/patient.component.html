@@ -1,45 +1,68 @@
 <div class="container">
   <h1>Patient Info</h1>
     <div class="row pb-3 pt-2">
-      <div class="col-3"><input type="text" class="rounded border" name="filterText" (keyup)="searchPatients($event)" placeholder="first name filter "></div>
-      <div class="col-3">{{resultCount}} items found</div>
+      <div class="col-5 col-md-3"><input type="text" [maxLength]="10" size="15" class="rounded border" name="filterText" (keyup)="searchPatients($event)" placeholder="first name filter "></div>
+      <div class="col-3 col-md-2">{{resultCount}} items </div>
+      <div class="col-4 col-md-1">show <select class="rounded border" (change)="getPatientInfobyCount($event)"><option>5</option><option selected>10</option><option>15</option></select> </div>
     </div>
 
-    <table class="table table-striped">
-      <thead class="thread-dark">
-        <th class="col">First Name</th>
-        <th class="col">Last name</th>
-        <th class="col">Gender</th>
-        <th class="col">Birthdate </th>
-        <th></th>
-      </thead>
-      <tbody>
+    <div class="row">
+      <div class="col-12 col-md-6">
+          <table class="table table-striped table-bordered table-responsive">
+            <thead class="thread-dark">
+              <th class="">First Name</th>
+              <th class="">Last Name</th>
+              <th class="d-none d-md-table-cell">Birthdate </th>
+              <th class=""></th>
+            </thead>
+            <tbody>
         
-      <tr *ngFor="let patient of patientFilter, index as idx">
-        <td>
-          <div *ngFor="let name of patient.resource.name">
-            <span *ngFor="let givenName of name.given, index as ct">
-              {{givenName}}
-              <span *ngIf="ct < name.given.length-1">,</span>
-            </span>
-          </div>
-        </td>
-        <td >
-          <div *ngFor="let name of patient.resource.name">
-          {{name.family}}
-          </div>
-        </td>
-        <td > {{patient.resource.gender}} </td>
-        <td > {{patient.resource.birthDate}} </td>
-        <td>
-          <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" (click)="showDetail(idx)" data-patient="idx" data-bs-target="#staticModal">
-            View Details
-          </button>
-        </td>
+            <tr *ngFor="let patient of patientFilter, index as idx">
+              <td class="">
+                <div *ngFor="let name of patient.resource.name">
+                  <span *ngFor="let givenName of name.given, index as ct">
+                    {{givenName}}
+                    <span *ngIf="ct < name.given.length-1">,</span>
+                  </span>
+                </div>
+              </td>
+
+              <td class="">
+                <div *ngFor="let name of patient.resource.name, index as ct">
+                {{name.family}} <small>{{name.use ? '(' + name.use + ')' : ''}}</small>
+                <span *ngIf="ct < patient.resource.name.length-1">, </span>
+                </div>
+              </td>
+
+              <td class="d-none d-md-table-cell"> {{showDate(patient.resource.birthDate)}} </td>
+              
+              <td class="">
+              <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" (click)="showDetail(idx)" data-patient="idx" data-bs-target="#staticModal">
+                View Details
+              </button>
+            </td>
 
       </tr>
     </tbody>
-</table>
+          </table>
+        </div>
+          <div class="row-cols-sm-12 col-md-5">
+            <div class="border border-dark ">
+              <h4 class="text-center pt-2">Ad/Additional Info Space</h4>
+              <div class="text-center">Show some more here </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+<!-- Spnner -->
+<div class="backdrop" [ngClass]="showSpinner ? 'showSpinner' : 'hideSpinner'">
+  <div class="text-center loading">
+    <div class="spinner-border" role="status">
+        <span class="sr-only"></span>    </div>
+  </div>
 </div>
 
 <!-- Modal -->

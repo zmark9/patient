@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row pb-2">
       <div class="fw-bold col-md-4 ms-auto">Id</div>
       <div class="col-md-8 ms-auto">
         <div>{{patientInfo.id}}</div>
@@ -7,7 +7,7 @@
     </div>
 
     <div *ngFor="let address of patientInfo.address">
-    <div class="row">
+    <div class="row pb-2 pt-2 border-top">
       <div class="fw-bold col-md-4 ms-auto">Address <small>({{address.use}})</small></div>
       <div class="col-md-8 ms-auto">
         <div *ngFor="let address of patientInfo.address">
@@ -20,22 +20,22 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row pb-2 pt-2 border-top">
     <div class="fw-bold col-md-4 ms-auto">Gender</div>
     <div class="col-md-8 ms-auto">
       <div> {{patientInfo.gender}}</div>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row pb-2 pt-2 border-top">
     <div class="fw-bold col-md-4 ms-auto">Birthdate</div>
     <div class="col-md-8 ms-auto">
       <div> {{bDate}}</div>
     </div>
   </div>
 
-  <div class="row">
-      <div class="fw-bold col-md-4 ms-auto">Phone</div>
+  <div class="row pb-2 pt-2 border-top">
+      <div class="fw-bold col-md-4 ms-auto">Telecom</div>
       <div class="col-md-8 ms-auto">
         <div *ngFor="let telecom of patientInfo.telecom">
           <span *ngIf="telecom.system">{{telecom.system + ':'}} {{telecom.value}}</span>
@@ -43,12 +43,21 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row pb-2 pt-2 border-top">
       <div class="fw-bold col-md-4 ms-auto">Meta Data</div>
-      <div class="col-md-8 ms-auto">
-        {{patientInfo.text === undefined ? '' : patientInfo.text.status}} <span [innerHTML]="patientInfo.text === undefined ? '' :patientInfo.text.div"></span>
+      <div class="col-md-8 ">
+        <div *ngFor="let item of metaKeys; let idx = index"> 
+          <div> {{item}}: {{metaValues[idx]}}</div>
+        </div>
       </div>
     </div>
     
+    <div class="row pb-2 pt-2 border-top">
+      <div class="fw-bold col-md-4 ms-auto">Meta Text</div>
+      <div class="col-md-8 ms-wrap">
+        {{patientInfo.text === undefined ? '' : patientInfo.text.status}} <span [innerHTML]="patientInfo.text === undefined ? '' :patientInfo.text.div"></span>
+      </div>
+    </div>
+
   </div>
 

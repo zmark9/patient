@@ -18,6 +18,7 @@ export class PatientComponent implements OnInit {
   filterText: string = '';
   moreInfo = {} as  Resource;
   resultCount: number = 0;
+  showSpinner: boolean = false;
 
   constructor(private patientService: PatientService) { }
 
@@ -25,18 +26,35 @@ export class PatientComponent implements OnInit {
     this.getPatientInfo();
   }
 
-  getPatientInfo() {
-    this.patientService.getPatient().pipe(take(1))
+  getPatientInfo(recCount: number = 10) {
+    this.showSpinner = true;
+    this.patientService.getPatient(recCount).pipe(take(1))
       .subscribe(res => {
         this.patients=res.entry;
         this.searchPatients(null);
-      })
-     }
+        this.showSpinner = false;
+    })
+    this.showSpinner = false;
+  }
+
+  getPatientInfobyCount(e: any) {
+    if (e.target.value) {
+      this.getPatientInfo(e.target.value)
+    }
+  }
 
   showDetail(idx: number) {
     this.patientInfo = this.patientFilter[idx].resource;
   }
 
+  showDate(birthDate: string): string {
+    if (birthDate) {
+      return new Date(birthDate).toLocaleDateString();
+    }
+    else {
+      return "";
+    }
+  }
   searchPatients(e: any) {
     this.patientFilter = this.patients
     if (e !== null) {
@@ -62,30 +80,6 @@ export class PatientComponent implements OnInit {
     }
     
     this.resultCount = this.patientFilter.length;
-  }
-
-  searchPatientsX(ps: EntryEntity[]) {
-    if (this.filterText !== '' ) {
-      this.patients = ps.filter(p =>
-        p.resource.name.some(n => {
-          if (n.given != null) {
-            for (let l = 0; l < n.given.length; l++ ) {
-              if (n.given[NameType.Individual].includes(this.filterText.toLowerCase())) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-            return false;
-          } else {
-           return false;
-          }
-        })
-      )
-    } else {
-        this.patients = ps;
-    }
-    this.resultCount = this.patients.length;
   }
 
 }

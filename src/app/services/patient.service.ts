@@ -9,11 +9,10 @@ import { Patient } from '../models/people.interface';
 export class PatientService {
 
   constructor(private httpClient: HttpClient) { }
-  // 591661
-  public getPatient(): Observable<Patient> {
 
-    const url = 'http://hapi.fhir.org/baseR4/Patient?_pretty=true&_count=5&_format=json';
-    // const url = 'https://server.fire.ly/R4/Patient?_format=json&_count=10';
+  public getPatient(recCount: number = 10): Observable<Patient> {
+
+    const url = `http://hapi.fhir.org/baseR4/Patient?_pretty=true&_count=${recCount}&_format=json`;
     return this.httpClient.get<Patient>(url);
   }
 

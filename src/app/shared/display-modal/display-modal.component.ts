@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Resource } from 'src/app/models/people.interface';
-import { NameType, PreferrredName } from "../enum/nameType"
+import { NameType, PreferredName } from "../enum/nameType"
 
 @Component({
   selector: 'app-display-modal',
@@ -14,17 +14,18 @@ export class DisplayModalComponent {
   @Input() patientInfo = {} as Resource ; 
   @Input() saveChanges: boolean = false;       
   
-  title: string = "Patient Details";            // default
+  title: string = "";
   patientName: string = "";
 
   constructor() { }
 
   ngOnChanges(): void {
 
-    // if (this.patientInfo !== {}) 
     if (Object.keys(this.patientInfo).length !== 0)
     {
-      this.patientName = this.patientInfo?.name[NameType.Individual].given[PreferrredName.Primary] + ' ' + this.patientInfo?.name[NameType.Individual].family;
+      this.patientName = this.patientInfo?.name[NameType.Individual].given[PreferredName.Primary] ?? '';
+      this.patientName += this.patientName.length ? ' ' : '';
+      this.patientName += this.patientInfo?.name[NameType.Individual].family ?? '';
     }
 
     switch (this.modalDetailType) {
@@ -33,6 +34,7 @@ export class DisplayModalComponent {
         break;
 
       default:
+        this.title = "Patient Details";            
         break;
     }
     this.title += ': ' + this.patientName 

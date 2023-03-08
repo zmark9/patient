@@ -1,7 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Resource } from 'src/app/models/people.interface';
-import { NameType, PreferrredName } from 'src/app/shared/enum/nameType';
-
 
 @Component({
   selector: 'app-patient-detail',
@@ -10,16 +7,18 @@ import { NameType, PreferrredName } from 'src/app/shared/enum/nameType';
 })
 export class PatientDetailComponent {
   @Input() patientInfo = {} as any; 
-  patientName: string  = '';
   bDate: string = '';
-  
-  public nameType = NameType;
-  
+  metaValues:string[]  = [];
+  metaKeys:string[]  = [];
+    
   ngOnChanges() {
     if (Object.keys(this.patientInfo).length !== 0) {
-      this.patientName = this.patientInfo?.name[NameType.Individual].given[PreferrredName.Primary] + ' ' + this.patientInfo?.name[NameType.Individual].family;
-      this.bDate = new Date(this.patientInfo.birthDate).toLocaleDateString();
-
+      console.log(this.patientInfo);
+      if (this.patientInfo.birthDate) {
+        this.bDate = new Date(this.patientInfo.birthDate).toLocaleDateString() ?? "";
+      }
+      this.metaValues = Object.values(this.patientInfo.meta);
+      this.metaKeys = Object.keys(this.patientInfo.meta);
     }
   }
 

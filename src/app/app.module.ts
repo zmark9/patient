@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { PatientComponent } from './patient/patient.component';
 import { PatientService } from './services/patient.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModalService } from './services/modal.service';
 import { PatientDetailComponent } from './patient/patient-detail/patient-detail.component';
 import { DisplayModalComponent } from './shared/display-modal/display-modal.component';
 
