@@ -14,12 +14,10 @@ export class PatientComponent implements OnInit {
   patients: EntryEntity[] = [];
   patientFilter: EntryEntity[] = [];
   patientInfo = {} as  Resource ;
-  showMore: boolean = false;
   filterText: string = '';
-  moreInfo = {} as  Resource;
   resultCount: number = 0;
   showSpinner: boolean = false;
-
+  selectValues: number[] = [5, 10, 15];
   constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
@@ -29,15 +27,18 @@ export class PatientComponent implements OnInit {
   getPatientInfo(recCount: number = 10) {
     this.showSpinner = true;
     this.patientService.getPatient(recCount).pipe(take(1))
-      .subscribe(res => {
-        this.patients=res.entry;
-        this.searchPatients(null);
-        this.showSpinner = false;
-    })
-    this.showSpinner = false;
+      .subscribe(
+          res => {
+             this.patients=res.entry;
+             this.searchPatients(null)
+            },
+          err => console.log('HTTP Error', err),    // get a real error handler
+          () => this.showSpinner = false
+    )
   }
 
-  getPatientInfobyCount(e: any) {
+
+  getPatientInfoByCount(e: any) {
     if (e.target.value) {
       this.getPatientInfo(e.target.value)
     }

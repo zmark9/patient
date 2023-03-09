@@ -16,11 +16,4 @@ export class PatientService {
     return this.httpClient.get<Patient>(url);
   }
 
-  public getPatients(): Observable<Patient[]> {
-
-    const url = 'http://hapi.fhir.org/baseR4/Patient?_pretty=true&_count=5&_format=json';
-    // const url = 'https://server.fire.ly/R4/Patient?_format=json&_count=10';
-    return this.httpClient.get<Patient[]>(url);
-  }
-
 }
