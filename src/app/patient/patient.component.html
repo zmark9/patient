@@ -1,7 +1,7 @@
 <div class="container">
   <h1>Patient Info</h1>
     <div class="row pb-3 pt-2">
-      <div class="col-5 col-md-3"><input type="text" [maxLength]="10" size="15" class="rounded border" name="filterText" (keyup)="searchPatients($event)" placeholder="first name filter "></div>
+      <div class="col-5 col-md-3"><input type="text" [maxLength]="10" size="15" class="rounded border" [(ngModel)]='filterText' name="filterText" (keyup)="searchPatients()" placeholder="first name filter "></div>
       <div class="col-3 col-md-2">{{resultCount}} items </div>
       <div class="col-4 col-md-1">show 
           <select class="rounded border" (change)="getPatientInfoByCount($event)" >

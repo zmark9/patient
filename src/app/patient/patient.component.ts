@@ -30,7 +30,7 @@ export class PatientComponent implements OnInit {
       .subscribe(
           res => {
              this.patients=res.entry;
-             this.searchPatients(null)
+             this.searchPatients()
             },
           err => console.log('HTTP Error', err),    // get a real error handler
           () => this.showSpinner = false
@@ -56,28 +56,26 @@ export class PatientComponent implements OnInit {
       return "";
     }
   }
-  searchPatients(e: any) {
+  searchPatients() {
+    const filterText = this.filterText;
     this.patientFilter = this.patients
-    if (e !== null) {
-      const filterText = e.target.value;
-      if (filterText !== '' ) {
-        this.patientFilter = this.patients.filter(p =>
-          p.resource.name.some(n => {
-            if (n.given != null) {
-              for (let l = 0; l < n.given.length; l++ ) {
-                if (n.given[NameType.Individual].toLowerCase().includes(filterText.toLowerCase())) {
-                  return true;
-                } else {
-                  return false;
-                }
+    if (filterText !== '' ) {
+      this.patientFilter = this.patients.filter(p =>
+        p.resource.name.some(n => {
+          if (n.given != null) {
+            for (let l = 0; l < n.given.length; l++ ) {
+              if (n.given[NameType.Individual].toLowerCase().includes(filterText.toLowerCase())) {
+                return true;
+              } else {
+                return false;
               }
-              return false;
-            } else {
-            return false;
             }
-          })
-        )
-      }
+            return false;
+          } else {
+          return false;
+          }
+        })
+      )
     }
     
     this.resultCount = this.patientFilter.length;
